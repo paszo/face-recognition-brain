@@ -23,7 +23,7 @@ class Register extends React.Component {
   }
 
   onSubmitSignIn = () => {
-    fetch('http://localhost:3000/register', {
+    fetch('https://mighty-sands-78487.herokuapp.com/register', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -31,10 +31,10 @@ class Register extends React.Component {
         password: this.state.password,
         name: this.state.name
       })
-    })
+    }).catch(console.log('server cannot register'))
       .then(response => response.json())
       .then(user => {
-        if (user) {
+        if (user.id) {
           this.props.loadUser(user)
           this.props.onRouteChange('home');
         }
@@ -46,7 +46,7 @@ class Register extends React.Component {
       <article className="br3 ba b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center">
         <main className="pa4 black-80">
           <div className="measure">
-            <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
+            <form id="sign_up" className="ba b--transparent ph0 mh0">
               <legend className="f1 fw6 ph0 mh0">Register</legend>
               <div className="mt3">
                 <label className="db fw6 lh-copy f6" htmlFor="name">Name</label>
@@ -55,6 +55,7 @@ class Register extends React.Component {
                   type="text"
                   name="name"
                   id="name"
+                  autoComplete="username"
                   onChange={this.onNameChange}
                 />
               </div>
@@ -65,6 +66,7 @@ class Register extends React.Component {
                   type="email"
                   name="email-address"
                   id="email-address"
+                  autoComplete="email"
                   onChange={this.onEmailChange}
                 />
               </div>
@@ -75,10 +77,11 @@ class Register extends React.Component {
                   type="password"
                   name="password"
                   id="password"
+                  autoComplete="new-password"
                   onChange={this.onPasswordChange}
                 />
               </div>
-            </fieldset>
+            </form>
             <div className="">
               <input
                 onClick={this.onSubmitSignIn}
